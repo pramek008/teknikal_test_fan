@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "881509981091",
+    "project_id": "testteknikalfan",
+    "storage_bucket": "testteknikalfan.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:881509981091:android:6101a161a624b5b0e7d816",
+        "android_client_info": {
+          "package_name": "com.example.test_teknikal_fan"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAD_4SQIb-RTSOMcnwgLrHzlQxrfbwDTgQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
