@@ -204,9 +204,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             context.read<AuthCubit>().signUp(
-                                  email: _emailController.text,
-                                  password: _passwordController.text,
-                                  name: _usernameController.text,
+                                  email: _emailController.text.trim(),
+                                  password: _passwordController.text.trim(),
+                                  name: _usernameController.text.trim(),
                                 );
                             emailVerificationCubit.sendVerificationEmail();
                           } else {

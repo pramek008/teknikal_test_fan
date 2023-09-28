@@ -1,18 +1,42 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:test_teknikal_fan/cubit/email_varification_cubit.dart';
 import 'package:test_teknikal_fan/utils/theme.dart';
 import 'package:test_teknikal_fan/utils/validator.dart' as validator;
 import 'package:test_teknikal_fan/widgets/btn_widget.dart';
 import 'package:test_teknikal_fan/widgets/text_form_field.dart';
 
-class ForgotPasswordScreen extends StatelessWidget {
-  const ForgotPasswordScreen({super.key});
+class ForgotPasswordScreen extends StatefulWidget {
+  const ForgotPasswordScreen({super.key, this.email});
+
+  final String? email;
+
+  @override
+  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
+}
+
+class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+
+  @override
+  void initState() {
+    if (widget.email != null) {
+      _emailController.text = widget.email!;
+    }
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
-
-    final _emailController = TextEditingController();
-
     Widget heading() => Container(
           margin: EdgeInsets.only(
             top: 12,
@@ -87,11 +111,52 @@ class ForgotPasswordScreen extends StatelessWidget {
                 SizedBox(
                   height: 40,
                 ),
-                CustomButtonWidget(
-                  btnName: 'Send Code',
-                  width: defaultMargin,
-                  statusColor: true,
-                  onPressed: () {},
+                BlocConsumer<EmailVarificationCubit, EmailVarificationState>(
+                  listener: (context, state) {
+                    if (state is EmailVerificationSuccess) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: greenColor,
+                          content: Text(
+                              'Reset password email has been sent to ${_emailController.text}'),
+                          duration: Duration(seconds: 3),
+                        ),
+                      );
+                      Navigator.popAndPushNamed(context, '/login');
+                    } else if (state is EmailVerificationFailed) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: redColor,
+                          content: Text(state.message),
+                        ),
+                      );
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state is EmailVerificationLoading) {
+                      return CircularProgressIndicator();
+                    }
+                    return CustomButtonWidget(
+                      btnName: 'Send Code',
+                      width: defaultMargin,
+                      statusColor: true,
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          //send code
+                          context
+                              .read<EmailVarificationCubit>()
+                              .resetPassword(_emailController.text.trim());
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: redColor,
+                              content: Text('Please fill the form correctly'),
+                            ),
+                          );
+                        }
+                      },
+                    );
+                  },
                 )
               ],
             ),

@@ -15,17 +15,27 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late Timer _timer;
+
+  @override
   void initState() {
     //check if user is email verified periodically
-    BlocProvider.of<AuthCubit>(context).getUser();
+    // BlocProvider.of<AuthCubit>(context).getUser();
 
-    Timer.periodic(
+    _timer = Timer.periodic(
       const Duration(seconds: 3),
       (timer) {
         BlocProvider.of<EmailVarificationCubit>(context).checkEmailVerified();
       },
     );
+
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   @override

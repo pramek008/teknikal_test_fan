@@ -54,19 +54,19 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  void getUser() async {
-    try {
-      emit(AuthLoading());
-      UserModel user = (await AuthService().getCurrentUser()) as UserModel;
-      if (user.id == '') {
-        emit(AuthInitial());
-      } else {
-        emit(AuthSuccess(user));
-      }
-    } catch (e) {
-      emit(AuthFailed(e.toString()));
-    }
-  }
+  // void getUser() async {
+  //   try {
+  //     emit(AuthLoading());
+  //     UserModel user = (await AuthService().getCurrentUser()) as UserModel;
+  //     if (user.id == '') {
+  //       emit(AuthInitial());
+  //     } else {
+  //       emit(AuthSuccess(user));
+  //     }
+  //   } catch (e) {
+  //     emit(AuthFailed(e.toString()));
+  //   }
+  // }
 
   void checkUser(String id) async {
     try {

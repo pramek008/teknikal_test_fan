@@ -45,4 +45,15 @@ class EmailVarificationCubit extends Cubit<EmailVarificationState> {
       emit(EmailVerificationFailed(e.toString()));
     }
   }
+
+  //reset password
+  void resetPassword(String email) async {
+    try {
+      emit(EmailVerificationLoading());
+      await _authService.resetPassword(email);
+      emit(EmailVerificationSuccess('Reset password email has been sent'));
+    } catch (e) {
+      emit(EmailVerificationFailed(e.toString()));
+    }
+  }
 }

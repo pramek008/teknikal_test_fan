@@ -19,7 +19,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
   @override
   void initState() {
     //check if user is email verified periodically
-    BlocProvider.of<AuthCubit>(context).getUser();
+    // BlocProvider.of<AuthCubit>(context).getUser();
     Timer.periodic(Duration(seconds: 5), (timer) {
       BlocProvider.of<EmailVarificationCubit>(context).checkEmailVerified();
     });
@@ -93,10 +93,8 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
               BlocConsumer<EmailVarificationCubit, EmailVarificationState>(
                 listener: (context, state) {
                   if (state is EmailVerificationSuccess) {
-                    // Jika email sudah diverifikasi, maka akan kembali ke halaman home
                     Navigator.pushAndRemoveUntil(
                         context,
-                        // MaterialPageRoute(builder: (context) => HomeScreen()),
                         MaterialPageRoute(builder: (context) => HomeScreen()),
                         (route) => false);
                     ScaffoldMessenger.of(context).showSnackBar(

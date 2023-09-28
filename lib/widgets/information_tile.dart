@@ -71,7 +71,7 @@ class InformationTileWidget extends StatelessWidget {
             ),
           ),
           Divider(
-            color: Color(0xff5C42B4).withOpacity(0.7),
+            color: greyColor,
             thickness: 1,
           ),
         ],
